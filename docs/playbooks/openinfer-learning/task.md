@@ -86,6 +86,18 @@
 - 删除过渡性的旧概览文档与设计草稿，避免文件夹再次分散。
 - 结果：成功。
 
+
+### Step 8: 补可执行练习与设计不变量文档
+- 新增 `subsystem-invariants.md`，总结 server/engine contract/scheduler/executor/bridge/KV 等不变量。
+- 新增 `first-week-exercises.md`，把学习路线变成一周可执行练习。
+- 更新 `README.md` 与若干“下一步阅读”指针，把学习包从“能读”提升到“能带人学”。
+- 结果：成功。
+
+### Step 9: 收尾审计与任务文档校正
+- 复查 `docs/playbooks/openinfer-learning/` 的目录结构、总行数、代码块覆盖和 `docs/index.md` 路由表，确认交付已经满足“写成文件”“足够详细”“整合到一个文件夹”“分成多个文档”“带代码”的要求。
+- 清理本任务文档里已经过时的 follow-up 表述，避免再次把已完成文档写成“未来可补”。
+- 结果：成功。
+
 ### Unexpected
 - 用户在上一轮中断了任务，然后追加了“分成多个文档，并且要有代码”的新要求；因此这轮把交付从“单次回答”升级成了“成套文档”。
 - 随后用户又要求“不要太繁琐，并整合到一个文件夹中”，所以交付被进一步收敛成一个统一目录 + 一个短入口文件。
@@ -93,14 +105,10 @@
 ## Debrief
 
 - **Outcome**:
-  - 已把学习材料收敛到 `docs/playbooks/openinfer-learning/`，并进一步扩成一个短入口 README + 三份深度学习文档 + 一份接入实战文档，覆盖“怎么学 openinfer”“怎么跟完整请求时序”“怎么做源码导读”“怎么比较各模型线”“怎么接新模型”。
+  - 已把学习材料收敛到 `docs/playbooks/openinfer-learning/`，并进一步扩成一个短入口 README + 多份深度学习文档 + 一份接入实战文档 + 一份不变量文档 + 一份练习文档，覆盖“怎么学 openinfer”“怎么跟完整请求时序”“怎么做源码导读”“怎么比较各模型线”“怎么接新模型”“哪些设计约束不能乱动”“如何把阅读路径变成练习”。
 - **Pitfalls encountered**:
   - 仓库现有 onboarding 更偏运行步骤，不宜和学习导图混在一起；如果混成一个文档，新人会很难区分“环境问题”和“架构问题”。
   - 这个仓库对“命令必须验证”的要求很严格，所以学习文档不能随手堆一堆 cargo 命令，必须以结构和代码路径为主。
 - **Lessons learned**:
   - 这类“帮助新人理解项目”的任务，最好的组织方式不是按功能列文件，而是按“心智模型 -> 请求路径 -> 扩展路径”三层展开。
   - 新模型接入文档必须强调边界：server 负责分发，model crate 负责策略，kernel crate 负责算子，不要把策略散进所有共享层。
-- **Follow-ups**:
-  - 如果后续用户愿意，还可以再补一份 `docs/playbooks/openinfer-first-week-exercises.md`，把阅读路径变成可打卡的小练习。
-  - 如果后续需要更深入，还可以继续补一份 `subsystem-invariants.md`，专门讲 scheduler / executor / KV / bridge 的设计不变量。
-

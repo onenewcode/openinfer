@@ -555,5 +555,5 @@ Qwen3 里可以在 `scheduler.rs` 和 `resolve/effects` 周边看到很多 `Toke
 2. **`GenerateRequest` / `TokenEvent` 是整个系统的统一语言。**
 3. **真正的运行时复杂性在模型 crate 的 scheduler/executor 里。**
 
-下一步建议看：`docs/playbooks/openinfer-learning/source-tour.md`
+下一步建议看：`docs/playbooks/openinfer-learning/source-tour.md`，再配合 `docs/playbooks/openinfer-learning/subsystem-invariants.md` 一起读会更稳。
 

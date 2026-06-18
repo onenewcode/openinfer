@@ -399,5 +399,5 @@ Kimi-K2 是这个仓库里最能说明“复杂性必须留在模型 crate”的
 
 这七个入口已经足够让你知道这个仓库是怎么工作的。
 
-下一步建议看：`docs/playbooks/openinfer-learning/model-comparison.md`
+下一步建议看：`docs/playbooks/openinfer-learning/model-comparison.md`，然后回头看 `docs/playbooks/openinfer-learning/subsystem-invariants.md`。
 

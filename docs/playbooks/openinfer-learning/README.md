@@ -11,6 +11,8 @@ docs/playbooks/openinfer-learning/
   source-tour.md           # 按 crate / 文件的源码阅读地图
   model-comparison.md      # Qwen3 / Qwen3.5 / DeepSeek / Kimi 的架构差异与复杂度对照
   new-model-integration.md # 接入新模型时该改哪些文件、哪些层、哪些验证闭环
+  subsystem-invariants.md  # 不要轻易破坏的设计约束
+  first-week-exercises.md  # 把阅读路径变成可执行练习
   task.md                  # 这轮文档建设记录
 ```
 
@@ -21,6 +23,8 @@ docs/playbooks/openinfer-learning/
 3. `docs/playbooks/openinfer-learning/source-tour.md`
 4. `docs/playbooks/openinfer-learning/model-comparison.md`
 5. `docs/playbooks/openinfer-learning/new-model-integration.md`
+6. `docs/playbooks/openinfer-learning/subsystem-invariants.md`
+7. `docs/playbooks/openinfer-learning/first-week-exercises.md`
 
 ## 一张够用的总图
 
@@ -213,4 +217,6 @@ Qwen3 是最标准的单卡 dense serving 闭环，几乎能教会你这个仓�
 - 想做系统化源码导读：看 `docs/playbooks/openinfer-learning/source-tour.md`
 - 想知道不同模型线到底差在哪：看 `docs/playbooks/openinfer-learning/model-comparison.md`
 - 想真正开始接新模型：看 `docs/playbooks/openinfer-learning/new-model-integration.md`
+- 想知道哪些设计约束不能乱动：看 `docs/playbooks/openinfer-learning/subsystem-invariants.md`
+- 想把阅读路径变成打卡练习：看 `docs/playbooks/openinfer-learning/first-week-exercises.md`
 

@@ -144,6 +144,8 @@ Organized by domain (model line / subsystem / playbook / lesson) instead of by l
 | `playbooks/openinfer-learning/source-tour.md` | 系统化源码阅读地图：按 `openinfer-server`、frontend、core、Qwen3、kernels 等子系统讲该先看哪些文件。 |
 | `playbooks/openinfer-learning/model-comparison.md` | Qwen3 / Qwen3.5 / DeepSeek / Kimi 的架构差异、复杂度梯度与模板选择指南。 |
 | `playbooks/openinfer-learning/new-model-integration.md` | 新模型接入手册：从 crate/feature gate 到文件级改动、运行时边界、验证闭环与文档闭环。 |
+| `playbooks/openinfer-learning/subsystem-invariants.md` | scheduler / executor / KV / bridge / engine contract 的设计不变量：哪些边界和语义不能轻易破。 |
+| `playbooks/openinfer-learning/first-week-exercises.md` | 一周学习练习：把请求主链路、源码导图、模型对照与接入指南变成可执行阅读任务。 |
 | `playbooks/openinfer-learning/task.md` | 本轮学习文档建设与收敛扩写的任务记录：准备、执行、风险和复盘。 |
 | `playbooks/bench-vs-vllm.md` | openinfer vs vLLM comparative benchmarking: method, workflow, typical configs, gotchas. |
 | `playbooks/model-optimization-pipeline.md` | Per-model optimization methodology: 2 standard profiles, vLLM baseline, e2e dashboard + append-only optimization log. |

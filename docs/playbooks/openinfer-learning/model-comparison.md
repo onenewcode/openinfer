@@ -232,5 +232,5 @@ Kimi-K2 同时叠了几层难度：
 - 3 开始变重 -> 看 DeepSeek-V2-Lite / V4
 - 1/2/3 全都重，而且运行时要大改 -> 看 Kimi-K2
 
-下一步建议看：`docs/playbooks/openinfer-learning/new-model-integration.md`
+下一步建议看：`docs/playbooks/openinfer-learning/new-model-integration.md`，如果准备改代码，再补读 `docs/playbooks/openinfer-learning/subsystem-invariants.md`。
 

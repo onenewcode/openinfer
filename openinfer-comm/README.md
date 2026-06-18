@@ -1,3 +1,86 @@
+# openinfer-comm 工作原理
+
+`openinfer-comm` 是 openinfer 里面向**跨 rank 数据移动**的公开通信表面。你可以把它理解成：它不是直接提供 CUDA kernel、也不是直接提供 RDMA Verbs 实现，而是试图定义一层更窄、更稳定的 OpenInfer 侧接口，让上层调度器只依赖“我需要一次 EP all-to-all”这种语义，而不依赖底层到底是 `pplx-garden` 风格实现、RDMA、CUDA 还是别的硬件细节。
+
+## 一句话先理解
+
+这个 crate 做的是：
+
+- 向上，给 OpenInfer 暴露一个较稳定的 EP backend 抽象；
+- 向下，把真实硬件实现藏在 `backend::*` 和各个 wrapper crate 后面；
+- 默认构建时故意保持“无硬件依赖、失败关闭（fail-closed）”。
+
+所以它的重点不是“现在已经有很强的通信能力”，而是“先把公开契约收窄并固定住”。
+
+## 它在系统里的位置
+
+```text
+OpenInfer 调度器 / 模型运行时
+  -> openinfer-comm
+      -> backend::rdma（未来/硬件 feature）
+          -> openinfer-comm-* wrapper crates
+              -> CUDA / GDRCopy / libibverbs / all-to-all kernels
+```
+
+这里有一个非常重要的设计选择：**OpenInfer 外部代码原则上只该看见 `openinfer-comm`，不该直接依赖底下那些 wrapper crate。**
+
+## 它当前真正提供的东西
+
+虽然 README 里反复强调它还是 skeleton，但从工程边界看，它已经明确了这些概念：
+
+- `EpAllToAll`：一次 EP all-to-all 调用的抽象接口
+- `EpBackend` / `EpBackendBuilder`：后端构建入口
+- `EpTopology`：world size、rank、expert / hidden / token 这些拓扑信息
+- `DispatchPlan` / `CombinePlan`：本次调用的路由描述
+- `DispatchHandle` / `CombineHandle` / `Poll`：异步 in-flight 句柄与轮询面
+- `Error` / `Result`：对外错误契约
+
+这说明它的目标不是暴露底层所有能力，而是把 OpenInfer 真正需要的那组“最小通信语义”先定义清楚。
+
+## 为什么它要 fail-closed
+
+当前它故意让 `EpBackendBuilder::build()` 在默认模式下返回错误，而不是返回一个半成品对象，原因很关键：
+
+- 不想让调用方拿到一个“方法里全是 `todo!()`”的 backend
+- 不想让 skeleton 形态误导别人以为已经有可用实现
+- 先锁定契约，再逐步接真后端
+
+也就是说，这个 crate 当前最重要的成果不是“能跑”，而是“公开 API 的边界已经被认真设计过，并且不会假装自己已完成”。
+
+## 为什么默认构建不碰硬件头文件
+
+这是整个 `openinfer-comm` 体系的核心哲学之一：
+
+- 默认 `cargo check -p openinfer-comm` 应该能在没有 CUDA / GDRCopy / RDMA Verbs 的机器上通过
+- 真正的硬件依赖，放到 feature 后面
+- 更底层的 wrapper crate 再去做 `*-sys` 绑定和硬件实现
+
+这样做的好处是：
+
+- 契约设计和 API 审查不被硬件环境绑死
+- 工作区基础 CI 更容易跑
+- 上层 OpenInfer 可以先依赖通信抽象，而不是马上被硬件细节污染
+
+## 它和 `openinfer-comm/crates/*` 的关系
+
+你可以把关系理解成两层：
+
+- `openinfer-comm`：面向 OpenInfer 的正式公开表面
+- `openinfer-comm/crates/*`：底层实现拼图（CUDA 包装、RDMA fabric、Torch 胶水、all-to-all kernel、Python bridge 等）
+
+这些子 crate 很重要，但它们不是想给 OpenInfer 其他模块直接依赖的。它们更像 backend adapter 的零件箱。
+
+## 最重要的心智模型
+
+理解 `openinfer-comm` 时，最重要的是接受它当前的定位：
+
+- 它现在首先是**契约 crate**
+- 其次才会成长为可用 backend 的装配入口
+
+也就是说，今天看它时，重点不是“功能多少”，而是“它把通信问题切出了怎样一条清晰的公开边界”。
+
+下面保留原始英文 README，继续记录 skeleton 状态、公共类型表面和 feature 约束，方便对照实现细节。
+
 # openinfer-comm
 
 Skeleton comm-backend surface for **OpenInfer**: a narrow, hardware-free
